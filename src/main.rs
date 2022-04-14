@@ -1,14 +1,17 @@
-use std::time::Instant;
 use std::thread;
+use std::time::Instant;
 
 pub mod hash_mod;
 
-pub const THREAD_COUNT:i32 = 12;
+pub const THREAD_COUNT: i32 = 12;
 
 // threads: https://doc.rust-lang.org/book/ch16-01-threads.html
 // counter: https://doc.rust-lang.org/book/ch16-03-shared-state.html
 fn main() {
-    assert_eq!(hash_mod::is_smaller(&String::from("000000000000000000000000000000000000000000000000000000000000007f"), &String::from("00000000000000000000000000000000000000000000000000000000000000ff")), false); //even
+    hash_mod::is_smaller(
+        &String::from("000a97e5e8f14e6c8c31c16781b25daa154df1638cf41f77da0066f779907155"),
+        &String::from("0001e838165c41adf44d758b2ce17388a95f8a2fb7997a53d9b5667343e38f49"),
+    );
 
     let hash1 = String::from("70000000751afc45531920752b4f61cb6dfb06e8e874d1e3130c4aee4050f4b6");
 
@@ -27,10 +30,9 @@ fn main() {
 
     let duration = start.elapsed();
     println!("Time elapsed: {:?}", duration);
-
 }
 
-fn new_worker(data: String, id:i32) -> thread::JoinHandle<()> {
+fn new_worker(data: String, id: i32) -> thread::JoinHandle<()> {
     let handle = thread::spawn(move || {
         println!("Worker {} started", id);
         let hash = find_smaller_hash(data);
@@ -50,4 +52,3 @@ fn find_smaller_hash(hash1: String) -> String {
         }
     }
 }
-
