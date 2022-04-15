@@ -37,8 +37,8 @@ mod tests {
             // Use `test::black_box` to prevent compiler optimizations from disregarding
             // Unused values
             test::black_box(hash_mod::is_smaller(
-                &String::from("000000000000000000000000000000000000000000000000000000000000000c"),
-                &String::from("000000000000000000000000000000000000000000000000000000000000000f"),
+                "000000000000000000000000000000000000000000000000000000000000000c".as_bytes(),
+                "000000000000000000000000000000000000000000000000000000000000000f".as_bytes(),
             ));
         });
     }
@@ -75,7 +75,7 @@ mod tests {
 
     fn is_smaller(hex1: String, hex2: String) {
         assert_eq!(
-            hash_mod::is_smaller(&hex1, &hex2),
+            hash_mod::is_smaller(&hex1.as_bytes(), &hex2.as_bytes()),
             validate_is_smaller(hex1, hex2)
         ); //smaller
     }

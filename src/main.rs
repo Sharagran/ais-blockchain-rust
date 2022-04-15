@@ -9,8 +9,8 @@ pub const THREAD_COUNT: i32 = 12;
 // counter: https://doc.rust-lang.org/book/ch16-03-shared-state.html
 fn main() {
     hash_mod::is_smaller(
-        &String::from("000a97e5e8f14e6c8c31c16781b25daa154df1638cf41f77da0066f779907155"),
-        &String::from("0001e838165c41adf44d758b2ce17388a95f8a2fb7997a53d9b5667343e38f49"),
+        "000a97e5e8f14e6c8c31c16781b25daa154df1638cf41f77da0066f779907155".as_bytes(),
+        "0001e838165c41adf44d758b2ce17388a95f8a2fb7997a53d9b5667343e38f49".as_bytes(),
     );
 
     let hash1 = String::from("70000000751afc45531920752b4f61cb6dfb06e8e874d1e3130c4aee4050f4b6");
@@ -37,17 +37,17 @@ fn new_worker(data: String, id: i32) -> thread::JoinHandle<()> {
         println!("Worker {} started", id);
         let hash = find_smaller_hash(data);
         println!("Worker {} finished", id);
-        println!("Hash: {}", hash);
+        println!("Hash: {}", String::from_utf8(hash.to_vec()).unwrap());
     });
 
     return handle;
 }
 
-fn find_smaller_hash(hash1: String) -> String {
+fn find_smaller_hash(hash1: String) -> [u8; 32] {
     loop {
         let number = hash_mod::random_number();
         let hash2 = hash_mod::generate_hash(number, &hash1, "FilipMaas");
-        if hash_mod::is_smaller(&hash2, &hash1) {
+        if hash_mod::is_smaller(&hash2, hash1.as_bytes()) {
             return hash2;
         }
     }
