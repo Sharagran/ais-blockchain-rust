@@ -45,8 +45,6 @@ mod tests {
 
     #[test]
     fn test_is_smaller() {
-        pyo3::prepare_freethreaded_python();
-
         is_smaller(
             String::from("000000000000000000000000000000000000000000000000000000000000007f"),
             String::from("00000000000000000000000000000000000000000000000000000000000000fe"),
